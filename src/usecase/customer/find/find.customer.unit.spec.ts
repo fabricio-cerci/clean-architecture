@@ -7,7 +7,7 @@ const customer = new Customer("123", "John");
 const address = new Address("Street", 123, "Zip", "City");
 customer.changeAddress(address);
 
-const mockRepository = (): CustomerRepositoryInterface => {
+const mockRepository = () => {
     return {
         find: jest.fn().mockReturnValue(Promise.resolve(customer)),
         findAll: jest.fn(),
@@ -39,5 +39,21 @@ describe("Unit Test find customer usecase", () => {
         const result = await useCase.execute(input);
 
         expect(result).toEqual(output);
+    });
+
+    it("should not find a customer", async () => {
+        const customerRepository = mockRepository();
+        customerRepository.find.mockImplementation(() => {
+            throw new Error("Customer not found");
+        });
+        const useCase = new FindCustomerUseCase(customerRepository);
+
+        const input = {
+            id: "123"
+        };
+
+        expect(() => {
+            return useCase.execute(input);
+        }).rejects.toThrow("Customer not found");
     });
 })
