@@ -1,11 +1,11 @@
+import CustomerRepositoryInterface from "../../../domain/customer/repository/customer-repository.interface";
 import Address from "../../../domain/customer/value-object/address";
-import CustomerRepository from "../../../infrastructure/customer/repository/sequelize/customer.repository";
 import { InputUpdateCustomerDto, OutputUpdateCustomerDto } from "./update.customer.dto";
 
 export default class UpdateCustomerUseCase {
-  private customerRepository: CustomerRepository;
+  private customerRepository: CustomerRepositoryInterface;
 
-  constructor(customerRepository: CustomerRepository) {
+  constructor(customerRepository: CustomerRepositoryInterface) {
     this.customerRepository = customerRepository;
   }
 
