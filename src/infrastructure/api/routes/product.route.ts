@@ -15,7 +15,7 @@ productRoute.post("/", async (req: Request, res: Response) => {
 
     const output = await useCase.execute(input);
     res.send(output);
-  } catch (error) {
-    console.log(error);
+  } catch (err) {
+    res.status(500).send(err);
   }
 });
