@@ -1,0 +1,21 @@
+import express, { Request, Response } from "express";
+import CreateProductUseCase from "../../../usecase/product/create/create.product.usecase";
+import ProductRepository from "../../product/repository/sequelize/product.repository";
+
+export const productRoute = express.Router();
+
+productRoute.post("/", async (req: Request, res: Response) => {
+  const useCase = new CreateProductUseCase(new ProductRepository());
+
+  try {
+    const input = {
+      name: req.body.name,
+      price: req.body.price
+    };
+
+    const output = await useCase.execute(input);
+    res.send(output);
+  } catch (error) {
+    console.log(error);
+  }
+});
