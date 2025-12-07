@@ -1,8 +1,9 @@
-import { toXML } from "jstoxml";
 import { OutputListCustomerDto } from "../../../usecase/customer/list/list.customer.dto";
 
 export default class CustomerPresenter {
-  static listXML(data: OutputListCustomerDto): string {
+  static async listXML(data: OutputListCustomerDto): Promise<string> {
+    const { toXML } = await import("jstoxml");
+
     const xmlOption = {
       header: true,
       indent: "  ",
@@ -10,7 +11,8 @@ export default class CustomerPresenter {
       allowEmpty: true,
     };
 
-    return toXML({
+    return toXML(
+      {
       customers: {
         customer: data.customers.map((customer) => ({
           id: customer.id,
@@ -23,6 +25,8 @@ export default class CustomerPresenter {
           },
         })),
       }
-    }, xmlOption);
+    },
+      xmlOption
+    );
   }
 }
